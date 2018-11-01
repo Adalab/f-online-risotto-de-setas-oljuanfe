@@ -6,25 +6,25 @@
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-	<header>
+	<header class="header">
 		<span>Ingredientes</span>
-		<h1>Nombre del plato</h1>
+		<h1 class="header-title">Nombre del plato</h1>
 	</header>
-	<main>
-		<section>
-			<div>
-				<button>
+	<main class="main">
+		<section class="section-first">
+			<div class="buttons-wrapper">
+				<button class="selected-button">
 					Seleccionar todo
 				</button>
-				<button>
+				<button class="deselected-button">
 					Deseleccionar todo
 				</button>
 			</div>
-			<div>
-				<ul>
-					<li>
-						<label for="">
-							<input type="checkbox" name="" id="">
+			<div class="ingredients-list-wrapper">
+				<ul class="ingredients-list">
+					<li class="ingredients-list-item">
+						<label for="isSelected">
+							<input type="checkbox" name="ingredient" id="isSelected">
 						</label>
 						<div>1</div>
 						<div>
@@ -34,9 +34,9 @@
 						</div>
 						<div>X,XX €</div>
 					</li>
-					<li>
-							<label for="">
-								<input type="checkbox" name="" id="">
+					<li  class="ingredients-list-item">
+							<label for="isSelected">
+								<input type="checkbox" name="ingredient" id="isSelected">
 							</label>
 							<div>1</div>
 							<div>
@@ -46,9 +46,9 @@
 							</div>
 							<div>X,XX €</div>
 						</li>
-						<li>
-								<label for="">
-									<input type="checkbox" name="" id="">
+						<li class="ingredients-list-item">
+								<label for="isSelected">
+									<input type="checkbox" name="ingredient" id="isSelected">
 								</label>
 								<div>1</div>
 								<div>
@@ -62,12 +62,12 @@
 			</div>
 			
 		</section>
-		<section>
-			<ul>
-				<li>Items: 1</li>
-				<li>Subtotal: 2,95 €</li>
-				<li>Gastos de envío: 7,00 €</li>
-				<li>Total 9,95</li>
+		<section class="section-second">
+			<ul class="summary-list">
+				<li class="summary-item">Items: 1</li>
+				<li class="summary-item">Subtotal: 2,95 €</li>
+				<li class="summary-item">Gastos de envío: 7,00 €</li>
+				<li class="summary-item">Total 9,95</li>
 			</ul>
 			<div>Comprar ingredientes: 9,95 €</div>
 		</section>
