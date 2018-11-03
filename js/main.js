@@ -77,6 +77,7 @@ function createCheckbox(ingredient) {
   const newCheckbox = document.createElement('input');
   newCheckbox.setAttribute('type', 'checkbox');
   newCheckbox.setAttribute('name', 'ingredient');
+  newCheckbox.setAttribute('class', 'checkbox');
   newCheckbox.setAttribute('id', ingredientName);
   return newCheckboxLabel.appendChild(newCheckbox);
 }
@@ -149,6 +150,17 @@ function addHtml() {
   addTitle();
   addIngredientsList();
 
+  // Añadir listener a los checkboxes evento click
+  const checkboxes = document.querySelectorAll('.checkbox');
+  console.log('checkboxes', checkboxes);
+  for (const checkbox of checkboxes) {
+    checkbox.addEventListener('click', selectItem);
+  }
+
+  // Añadir listeners a seleccionar y deseleccionar
+  onButton.addEventListener('click', function() {selectedAll(checkboxes);});
+  offButton.addEventListener('click',function(){ deselectedAll(checkboxes);});
+
   summaryPrices['Gastos de envio'] = data.recipe['shipping-cost'];
   summaryPrices['Total'] = summaryPrices['Items'] + summaryPrices['Subtotal'] + summaryPrices['Gastos de envio'];
   console.log('resumen', summaryPrices);
@@ -157,16 +169,34 @@ function addHtml() {
   addTotalPurchase();
 }
 
+// Función para seleccionar item
+function selectItem(){
+  console.log(event.currentTarget);
+  !event.currentTarget.checked;
+  console.log(event.currentTarget.checked);
+}
 
-function selectedAll() {
+function selectedAll(checkboxes) {
   console.log('click seleccionar');
+  for (const checkbox of checkboxes) {
+    checkbox.checked = true;
+    // checkbox.value = 'on';
+    console.log('checkboxes',checkbox);
+    console.log('checkboxes',checkbox.checked);
+  }
 }
 
-function deselectedAll() {
+function deselectedAll(checkboxes) {
   console.log('click deseleccionar');
+  for (const checkbox of checkboxes) {
+    checkbox.checked = false;
+    checkbox.value = 'off';
+    console.log('checkboxes',checkbox.checked);
+  }
+  
 }
 
-onButton.addEventListener('click', selectedAll);
-offButton.addEventListener('click', deselectedAll);
+// onButton.addEventListener('click', selectedAll);
+// offButton.addEventListener('click', deselectedAll);
 
 console.log('data final', data);
