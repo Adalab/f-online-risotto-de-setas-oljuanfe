@@ -28,11 +28,11 @@ if (data === null) {
     });
 }
 
-if (data !== null){
+if (data !== null) {
   recipeName = data.recipe.name;
   recipeIngredients = data.recipe.ingredients;
   console.log('name', recipeName);
-console.log('ingredients', recipeIngredients);
+  console.log('ingredients', recipeIngredients);
 }
 
 function addTitle() {
@@ -42,32 +42,42 @@ function addTitle() {
 }
 
 function addIngredientsList() {
-  let newListItem = document.createElement('li');
-  newListItem.append(createCheckbox(), addIngredientQuantity(), addIngredientInfo());
-  console.log('list',newListItem);
+  const recipeIngredients = data.recipe.ingredients;
+  console.log('allIr', recipeIngredients);
+  for (const ingredient of recipeIngredients) {
+    console.log('ingre', ingredient);
+    let newListItem = document.createElement('li');
+    newListItem.append(createCheckbox(ingredient), addIngredientQuantity(ingredient), addIngredientInfo(ingredient));
+    console.log('list', newListItem);
+    ingredientsList.appendChild(newListItem);
+    console.log('list completed', ingredientsList);
+  }
+
+
+
 }
 
-function createCheckbox() {
-  const ingredientName = data.recipe.ingredients[0].product;
+function createCheckbox(ingredient) {
+  const ingredientName = ingredient.product;
   const newCheckboxLabel = document.createElement('label');
   newCheckboxLabel.setAttribute('for', ingredientName);
   const newCheckbox = document.createElement('input');
-  newCheckbox.setAttribute('type','checkbox');
+  newCheckbox.setAttribute('type', 'checkbox');
   newCheckbox.setAttribute('name', 'ingredient');
   newCheckbox.setAttribute('id', ingredientName);
   return newCheckboxLabel.appendChild(newCheckbox);
 }
 
-function addIngredientQuantity() {
-  const ingredientItem = data.recipe.ingredients[0].items;
+function addIngredientQuantity(ingredient) {
+  const ingredientItem = ingredient.items;
   const newIngredientItem = document.createElement('div');
   const newItemContent = document.createTextNode(ingredientItem);
   newIngredientItem.appendChild(newItemContent);
   return newIngredientItem;
 }
 
-function addIngredientInfo() {
-  const ingredientInfo = data.recipe.ingredients[0];
+function addIngredientInfo(ingredient) {
+  const ingredientInfo = ingredient;
   const newInfoWrapper = document.createElement('div');
 
   const newIngredientTitle = document.createElement('h2');
@@ -75,7 +85,7 @@ function addIngredientInfo() {
   newIngredientTitle.appendChild(newTitleContent);
 
   const newBrand = document.createElement('p');
-  const newBrandContent = document.createTextNode(ingredientInfo.brand);
+  const newBrandContent = document.createTextNode(ingredientInfo.brand || 'Sin marca');
   newBrand.appendChild(newBrandContent);
 
   const newQuantity = document.createElement('p');
@@ -87,12 +97,12 @@ function addIngredientInfo() {
 }
 
 addTitle();
-createCheckbox();
-addIngredientQuantity();
-addIngredientInfo();
+// createCheckbox();
+// addIngredientQuantity();
+// addIngredientInfo();
 addIngredientsList();
 
-function selectedAll(){
+function selectedAll() {
   console.log('click seleccionar');
 }
 
