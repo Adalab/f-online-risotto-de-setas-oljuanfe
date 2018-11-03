@@ -5,6 +5,8 @@ console.log('>> Ready :)');
 let data;
 let recipeName;
 let recipeIngredients;
+let totalNumberItems = 0;
+let totalPriceItems = 0;
 const URL = 'https://raw.githubusercontent.com/Adalab/recipes-data/master/rissoto-setas.json';
 const onButton = document.querySelector('.selected-button');
 const offButton = document.querySelector('.deselected-button');
@@ -86,6 +88,7 @@ function createCheckbox(ingredient) {
 function addIngredientNumberItems(ingredient) {
   const ingredientItem = ingredient.items;
   const newIngredientItem = document.createElement('div');
+  newIngredientItem.setAttribute('class', 'item-number');
   const newItemContent = document.createTextNode(ingredientItem);
   newIngredientItem.appendChild(newItemContent);
   return newIngredientItem;
@@ -118,6 +121,7 @@ function addIngredientPrice(ingredient) {
   const ingredientPrice = ingredient.price;
   const currency = data.recipe.currency;
   const newPrice = document.createElement('div');
+  newPrice.setAttribute('class','total-item-price');
   const newPriceContent = document.createTextNode(ingredientPrice + ' ' + currency);
   newPrice.appendChild(newPriceContent);
   return newPrice;
@@ -127,7 +131,7 @@ function addIngredientPrice(ingredient) {
 // Creo los items de la lista resumen de precios
 function addSummaryList() {
   for (const itemList in summaryPrices) {
-    let listContent = itemList + ': ' + summaryPrices[itemList] + ' ' + data.recipe.currency;
+    let listContent = itemList + ': ' + summaryPrices[itemList] + ' ' + (itemList !=='Items'?data.recipe.currency:'');
     const newItemList = document.createElement('li');
     const newItemListContent = document.createTextNode(listContent);
     newItemList.appendChild(newItemListContent);
@@ -147,20 +151,43 @@ function addTotalPurchase() {
 
 // Función crear elementos dinámicos
 function addHtml() {
+  // Sección 1
   addTitle();
   addIngredientsList();
 
+  //Numero de items
+  const itemNumber = document.querySelectorAll('.item-number');
+  for(const number of itemNumber){
+    console.log(parseInt(number.innerHTML));
+    totalNumberItems = totalNumberItems + parseInt(number.innerHTML);
+    console.log('nu',totalNumberItems);
+  }
+
+  console.log('number', itemNumber);
+
+  // Precio total items
+  const pricePerItem = document.querySelectorAll('.total-item-price');
+  for (const price of pricePerItem){
+    console.log('price', price.innerHTML);
+    console.log('price', parseFloat(price.innerHTML));
+    totalPriceItems = totalPriceItems + parseFloat( price.innerHTML);
+  }
+
+  console.log('subtotal',totalPriceItems);
+
   // Añadir listener a los checkboxes evento click
   const checkboxes = document.querySelectorAll('.checkbox');
-  console.log('checkboxes', checkboxes);
   for (const checkbox of checkboxes) {
     checkbox.addEventListener('click', selectItem);
   }
 
-  // Añadir listeners a seleccionar y deseleccionar
+  // Añadir listeners a seleccionar y deseleccionar y pasar los checkboxes creados dinámicamente como argumento
   onButton.addEventListener('click', function() {selectedAll(checkboxes);});
   offButton.addEventListener('click',function(){ deselectedAll(checkboxes);});
 
+  // Sección 2
+  summaryPrices['Items'] = totalNumberItems;
+  summaryPrices['Subtotal'] = totalPriceItems;
   summaryPrices['Gastos de envio'] = data.recipe['shipping-cost'];
   summaryPrices['Total'] = summaryPrices['Items'] + summaryPrices['Subtotal'] + summaryPrices['Gastos de envio'];
   console.log('resumen', summaryPrices);
@@ -169,6 +196,9 @@ function addHtml() {
   addTotalPurchase();
 }
 
+// Función para rellenar datos summary list
+
+
 // Función para seleccionar item
 function selectItem(){
   console.log(event.currentTarget);
@@ -176,24 +206,20 @@ function selectItem(){
   console.log(event.currentTarget.checked);
 }
 
+//Función para seleccionar todos los items
 function selectedAll(checkboxes) {
-  console.log('click seleccionar');
   for (const checkbox of checkboxes) {
     checkbox.checked = true;
-    // checkbox.value = 'on';
-    console.log('checkboxes',checkbox);
-    console.log('checkboxes',checkbox.checked);
+    checkbox.value = 'on';
   }
 }
 
+// Función para deseleccionar todos los items
 function deselectedAll(checkboxes) {
-  console.log('click deseleccionar');
   for (const checkbox of checkboxes) {
     checkbox.checked = false;
     checkbox.value = 'off';
-    console.log('checkboxes',checkbox.checked);
   }
-  
 }
 
 // onButton.addEventListener('click', selectedAll);
