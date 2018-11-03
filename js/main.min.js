@@ -11,6 +11,8 @@ const offButton = document.querySelector('.deselected-button');
 const mainTitle = document.querySelector('.header-title');
 const ingredientsList = document.querySelector('.ingredients-list');
 const summaryList = document.querySelector('.summary-list');
+const totalPurchase = document.querySelector('.total-container');
+
 
 let summaryPrices = {
   Items: 0,
@@ -24,7 +26,7 @@ data = JSON.parse(localStorage.getItem('recipe'));
 console.log('data after get', data);
 
 
-// Si en el localStorage no hubiese nada sería data = null, hago llamada a la API
+// Si en el localStorage no hubiese nada sería data = null, hago llamada a la API, si no, pinto html directamente
 if (data === null) {
   console.log('entrando if');
   fetch(URL)
@@ -34,16 +36,19 @@ if (data === null) {
     .then((json) => {
       console.log(json);
       localStorage.setItem('recipe', JSON.stringify(json));
-      return (data = json, console.log('data', data));
+      data = json;
+      return (addHtml(), console.log('data', data));
     });
+} else {
+  addHtml();
 }
 
-if (data !== null) {
-  recipeName = data.recipe.name;
-  recipeIngredients = data.recipe.ingredients;
-  console.log('name', recipeName);
-  console.log('ingredients', recipeIngredients);
-}
+// if (data !== null) {
+//   recipeName = data.recipe.name;
+//   recipeIngredients = data.recipe.ingredients;
+//   console.log('name', recipeName);
+//   console.log('ingredients', recipeIngredients);
+// }
 
 
 // Añadir título principal a la página
@@ -56,12 +61,9 @@ function addTitle() {
 // Creo la lista de todos los ingredientes de la receta, primera sección
 function addIngredientsList() {
   const recipeIngredients = data.recipe.ingredients;
-  console.log('allIr', recipeIngredients);
   for (const ingredient of recipeIngredients) {
-    console.log('ingre', ingredient);
     let newListItem = document.createElement('li');
     newListItem.append(createCheckbox(ingredient), addIngredientNumberItems(ingredient), addIngredientInfo(ingredient), addIngredientPrice(ingredient));
-    console.log('list', newListItem);
     ingredientsList.appendChild(newListItem);
     console.log('list completed', ingredientsList);
   }
@@ -120,32 +122,40 @@ function addIngredientPrice(ingredient) {
   return newPrice;
 }
 
-// Creo lista resumen precio productos
 
-
-
-// Creo los items de la lista resumen
+// Creo los items de la lista resumen de precios
 function addSummaryList() {
   for (const itemList in summaryPrices) {
     let listContent = itemList + ': ' + summaryPrices[itemList] + ' ' + data.recipe.currency;
-    console.log(listContent);
     const newItemList = document.createElement('li');
     const newItemListContent = document.createTextNode(listContent);
     newItemList.appendChild(newItemListContent);
     summaryList.appendChild(newItemList);
   }
   console.log('summary final', summaryList);
-  
 }
 
-addTitle();
-addIngredientsList();
+// Creo el contenedor donde irá el precio final a pagar
+function addTotalPurchase() {
+  let purchaseContent = 'Comprar ingredientes: ' + summaryPrices['Total'] + ' ' + data.recipe.currency;
+  const newPurchaseContent = document.createTextNode( purchaseContent);
+  console.log(newPurchaseContent);
+  console.log(totalPurchase);
+  totalPurchase.appendChild(newPurchaseContent);
+}
 
-summaryPrices['Gastos de envio'] = data.recipe['shipping-cost'];
-summaryPrices['Total'] = summaryPrices['Items'] + summaryPrices['Subtotal'] + summaryPrices['Gastos de envio'];
-console.log('resumen', summaryPrices);
+// Función crear elementos dinámicos
+function addHtml() {
+  addTitle();
+  addIngredientsList();
 
-addSummaryList();
+  summaryPrices['Gastos de envio'] = data.recipe['shipping-cost'];
+  summaryPrices['Total'] = summaryPrices['Items'] + summaryPrices['Subtotal'] + summaryPrices['Gastos de envio'];
+  console.log('resumen', summaryPrices);
+
+  addSummaryList();
+  addTotalPurchase();
+}
 
 
 function selectedAll() {
