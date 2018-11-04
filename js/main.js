@@ -126,7 +126,7 @@ function addIngredientInfo(ingredient) {
 
 // Añado precio del ingrediente
 function addIngredientPrice(ingredient) {
-  const ingredientPrice = ingredient.price * ingredient.items;
+  const ingredientPrice = ingredient.price;
   const currency = data.recipe.currency;
   const newPrice = document.createElement('div');
   newPrice.setAttribute('class','total-item-price text-success');
@@ -164,31 +164,21 @@ function addHtml() {
   addTitle();
   addIngredientsList();
 
-  
-
-  // Precio total items
-  const pricePerItem = document.querySelectorAll('.total-item-price');
-  updatePriceItem(pricePerItem);
 
 
-  //Añado listener change input number
+
+  //Añado listener change input number para cantidad items
   const ingredientNumberItems = document.querySelectorAll('.item-number');
   for (const numberOfItems of ingredientNumberItems) {
-    console.log('bUUUUUUUUUUU',numberOfItems);
     numberOfItems.addEventListener('change',function(){handleChangeNumber(pricePerItem);});
   }
 
   //Numero de items
   const itemNumber = document.querySelectorAll('.item-number');
   for(const number of itemNumber){
-    console.log(parseInt(number.value));
     totalNumberItems = totalNumberItems + parseInt(number.value);
-    // console.log('nu',totalNumberItems);
   }
 
-  // console.log('number', itemNumber);
-
-  
 
   // console.log('subtotal',totalPriceItems);
 
@@ -210,41 +200,50 @@ function addHtml() {
   console.log('resumen', summaryPrices);
 
   addSummaryList();
+
+  // Precio total items
+  const pricePerItem = document.querySelectorAll('.total-item-price');
+  // updatePriceItem(pricePerItem);
+  
+
   addTotalPurchase();
 }
 
 // Función para cambiar número items
-function handleChangeNumber(pricePerItem) {
-  console.log('change', event.target);
+function handleChangeNumber() {
   for(const ingredient of data.recipe.ingredients){
     if(ingredient.product + '-number' === event.currentTarget.id){
       ingredient.items = parseInt(event.currentTarget.value);
     }
   }
   console.log('new object', data.recipe.ingredients);
-  updatePriceItem(pricePerItem);
+  updatePriceItem();
 }
 
-// Función para cambiar precio items
-function updatePriceItem(pricePerItem) {
+// Función para cambiar precio items TODO se cambia en el objeto data pero no se pinta
+function updatePriceItem() {
   for (const ingredient of data.recipe.ingredients) {
-    if (originalData.recipe.ingredients.product === ingredient.product){
-      ingredient.price = (parseFloat(originalData.recipe.ingredients.price) * ingredient.items) + ' ' + data.recipe.currency;
+    for (const originalIngredient of originalData.recipe.ingredients) {
+      if (originalIngredient.product === ingredient.product) {
+        console.log('originakprice', originalIngredient.price);
+        ingredient.price = (parseFloat(originalIngredient.price) * ingredient.items);
+        console.log('price', ingredient.price);
+        addIngredientPrice(ingredient);
+      }
     }
-    
   }
-  for (const price of pricePerItem){
-    // console.log('price', price.innerHTML);
-    totalPriceItems = totalPriceItems + parseFloat( price.innerHTML);
-    console.log('totalPrice', totalPriceItems);
-  }
+  
+  // for (const price of pricePerItem){
+  //   // console.log('price', price.innerHTML);
+  //   totalPriceItems = totalPriceItems + parseFloat( price.innerHTML);
+  //   console.log('totalPrice', totalPriceItems);
+  // }
+  
 }
 
 // Función para seleccionar item
 function selectItem(){
-  console.log(event.currentTarget);
   !event.currentTarget.checked;
-  console.log(event.currentTarget.checked);
 }
 
 //Función para seleccionar todos los items
@@ -263,8 +262,6 @@ function deselectedAll(checkboxes) {
   }
 }
 
-// onButton.addEventListener('click', selectedAll);
-// offButton.addEventListener('click', deselectedAll);
 
 console.log('data final', data);
 console.log('original', originalData);

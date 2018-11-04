@@ -34,10 +34,6 @@ input[type=number] {
   text-align: center;
 }
 
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-
 .ingredient-list-item {
   display: -webkit-box;
   display: -ms-flexbox;
