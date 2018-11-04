@@ -12,16 +12,11 @@
 	<link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
+<body class="">
 	<header class="header">
 		<span>Ingredientes</span>
 		<h1 class="header-title"></h1>
-	</header>
-
-	<main class="main">
-
-		<section class="section-first">
-			<div class="buttons-wrapper">
+		<div class="buttons-wrapper">
 				<button class="selected-button">
 					Seleccionar todo
 				</button>
@@ -29,14 +24,20 @@
 					Deseleccionar todo
 				</button>
 			</div>
+	</header>
 
-			<div class="ingredients-list-wrapper">
-				<ul class="ingredients-list">
+	<main class="main card border border-top border-primary">
+
+		<section class="section-first">
+			
+
+			<div class="ingredients-list-wrapper ">
+				<ul class="ingredients-list list-group list-group-flush">
 				</ul>
 			</div>
 		</section>
 
-		<section class="section-second">
+		<section class="section-second card-body">
 			<ul class="summary-list">
 			</ul>
 			<button type="submit" class="total-container btn btn-success"></button>

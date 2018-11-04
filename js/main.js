@@ -60,6 +60,7 @@ function addIngredientsList() {
   for (const ingredient of recipeIngredients) {
     let newListItem = document.createElement('li');
     newListItem.append(createCheckbox(ingredient), addIngredientNumberItems(ingredient), addIngredientInfo(ingredient), addIngredientPrice(ingredient));
+    newListItem.setAttribute('class', 'ingredient-list-item list-group-item custom-control custom-checkbox d-flex');
     ingredientsList.appendChild(newListItem);
     // console.log('list completed', ingredientsList);
   }
@@ -68,14 +69,19 @@ function addIngredientsList() {
 // Creo input checkbox con su label
 function createCheckbox(ingredient) {
   const ingredientName = ingredient.product;
+  const newCheckboxWrapper = document.createElement('div');
+  newCheckboxWrapper.setAttribute('class', 'custom-control custom-checkbox custom-control-inline');
   const newCheckboxLabel = document.createElement('label');
   newCheckboxLabel.setAttribute('for', ingredientName);
+  newCheckboxLabel.setAttribute('class', 'custom-control-label');
   const newCheckbox = document.createElement('input');
   newCheckbox.setAttribute('type', 'checkbox');
   newCheckbox.setAttribute('name', 'ingredient');
-  newCheckbox.setAttribute('class', 'checkbox');
+  newCheckbox.setAttribute('class', 'checkbox custom-control-input');
   newCheckbox.setAttribute('id', ingredientName);
-  return newCheckboxLabel.appendChild(newCheckbox);
+  // newCheckboxLabel.appendChild(newCheckbox);
+  newCheckboxWrapper.append(newCheckbox, newCheckboxLabel);
+  return newCheckboxWrapper;
 }
 
 // Añado el número de items del ingrediente en un input number
@@ -86,7 +92,7 @@ function addIngredientNumberItems(ingredient) {
   const newIngredientItem = document.createElement('input');
   newIngredientItem.setAttribute('type', 'number');
   newIngredientItem.setAttribute('id', ingredient.product + '-number');
-  newIngredientItem.setAttribute('class', 'item-number');
+  newIngredientItem.setAttribute('class', 'item-number  form-control-sm ');
   newIngredientItem.setAttribute('max', 9);
   newIngredientItem.setAttribute('min', 0);
   newIngredientItem.setAttribute('value', ingredientItem);
@@ -100,6 +106,7 @@ function addIngredientNumberItems(ingredient) {
 function addIngredientInfo(ingredient) {
   const ingredientInfo = ingredient;
   const newInfoWrapper = document.createElement('div');
+  newInfoWrapper.setAttribute('class', 'info-ingredient-wrapper');
 
   const newIngredientTitle = document.createElement('h2');
   const newTitleContent = document.createTextNode(ingredientInfo.product);
@@ -122,7 +129,7 @@ function addIngredientPrice(ingredient) {
   const ingredientPrice = ingredient.price * ingredient.items;
   const currency = data.recipe.currency;
   const newPrice = document.createElement('div');
-  newPrice.setAttribute('class','total-item-price');
+  newPrice.setAttribute('class','total-item-price text-success');
   newPrice.setAttribute('id',ingredientPrice);
   const newPriceContent = document.createTextNode(ingredientPrice + ' ' + currency);
   newPrice.appendChild(newPriceContent);

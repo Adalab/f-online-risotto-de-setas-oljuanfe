@@ -3,6 +3,58 @@
   padding: 0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  font-size: 15px;
+}
+
+h1 {
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+  display: inline;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+input[type=number] {
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  font: bold 16px Arial;
+  color: blue;
+  text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.ingredient-list-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.total-item-price {
+  font-size: 20px;
+}
+
+.info-ingredient-wrapper {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
 }
 
 /*# sourceMappingURL=main.css.map */
